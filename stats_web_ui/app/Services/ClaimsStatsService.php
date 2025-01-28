@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-class ClaimsStatsService  extends BaseHttpService {
+class ClaimsStatsService  {
   /**
      * Get the total number of claims.
      */

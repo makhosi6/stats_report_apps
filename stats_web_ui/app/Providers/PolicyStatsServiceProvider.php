@@ -21,8 +21,12 @@ class PolicyStatsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->singleton(PolicyStatsService::class, function (Application $app) {
-            return new PolicyStatsService();
+        $policy_service =  new PolicyStatsService();
+
+
+
+        $this->app->singleton(PolicyStatsService::class, function (Application $app) use($policy_service) {
+            return $policy_service;
         });
     }
 }

@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-class PolicyStatsService  extends BaseHttpService
+class PolicyStatsService
 {
     /**
      * Get the total number of policies.

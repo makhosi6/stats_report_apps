@@ -5,3 +5,10 @@
 [x-cloak] {
     display: none;
 }
+
+*, ::before, ::after {
+    box-sizing: unset;
+    border-width: unset;
+    border-style: unset;
+    border-color: unset;
+}
