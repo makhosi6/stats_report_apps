@@ -2,10 +2,17 @@
 
 use App\Http\Controllers;
 use App\Http\Controllers\BenefitStatsController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
 Route::middleware([
@@ -13,11 +20,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    ///
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return Inertia::render('Dashboard');
     })->name('dashboard');
     ///
-    Route::get('/benefits/{id}', [BenefitStatsController::class, 'show']);
     Route::get('/benefits', [BenefitStatsController::class, 'index']);
+    Route::get('/benefits/{id}', [BenefitStatsController::class, 'show']);
 });
