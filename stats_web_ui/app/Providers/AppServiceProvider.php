@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use App\Models\PersonalAccessToken;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+
         $user_acquisition = User::select(DB::raw("COUNT(*) as count"))
             ->whereYear('created_at', date('Y'))
             ->groupBy(DB::raw("Month(created_at)"))

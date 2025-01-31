@@ -1,0 +1,10 @@
+    main.welcome-page {
+        height: calc(100vh - (250px));
+        padding: 0 !important;
+        margin: 0 !important
+    }
+
+    a.btn2 {
+        border: 1px solid whitesmoke !important;
+        max-height: max-content !important;
+    }

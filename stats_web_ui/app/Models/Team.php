@@ -7,12 +7,16 @@ use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
+use Illuminate\Support\Str;
 
 class Team extends JetstreamTeam
 {
     /** @use HasFactory<\Database\Factories\TeamFactory> */
     use HasFactory;
 
+    public $keyType = 'string';
+
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -44,5 +48,16 @@ class Team extends JetstreamTeam
         return [
             'personal_team' => 'boolean',
         ];
+    }
+    /**
+     *
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = (string) Str::uuid();
+        });
     }
 }

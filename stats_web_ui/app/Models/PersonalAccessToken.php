@@ -2,25 +2,19 @@
 
 namespace App\Models;
 
-use Laravel\Jetstream\Membership as JetstreamMembership;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-class Membership extends JetstreamMembership
+use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
+
+class PersonalAccessToken extends SanctumPersonalAccessToken
 {
     use HasFactory;
 
-    public $incrementing = false;
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-
     public $keyType = 'string';
 
-    /**
-     *
-     */
+    public $incrementing = false;
+
+
     public static function boot()
     {
         parent::boot();
@@ -29,4 +23,5 @@ class Membership extends JetstreamMembership
             $model->id = (string) Str::uuid();
         });
     }
+
 }
