@@ -12,3 +12,7 @@
     border-style: unset;
     border-color: unset;
 }
+
+input {
+    color-scheme: dark;
+  }

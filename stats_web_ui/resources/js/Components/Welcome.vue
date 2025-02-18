@@ -1,95 +1,52 @@
 <script setup>
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Placeholder from "@/Components/Placeholder.vue";
+import NumbersCard from "./NumbersCard.vue";
+import EventsTable from "./Graphs/EventsTable.vue";
+import BarChart from "./Graphs/BarChart.vue";
+import LineGraph from "./Graphs/LineGraph.vue";
+import SummaryStatsSection from "@/Layouts/SummaryStatsSection.vue";
+import MonthToMonthStatsSection from "@/Layouts/MonthToMonthSection.vue";
+import DetailedStatsSection from "@/Layouts/DetailedStatsSection.vue";
 </script>
 
 <template>
     <div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-4">
-            <div
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg"
-            >
-                <div
-                    class="bg-[transparent] flex flex-wrap flex-grow mb-6 justify-evenly"
-                >
-                    <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/3.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                    >
-                        <Placeholder />
-                    </div>
-                    <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/3.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                    >
-                        <Placeholder />
-                    </div>
-                    <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/3.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                    >
-                        <Placeholder />
-                    </div>
-                </div>
-            </div>
-        </div>
         <!--  -->
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-4">
-            <div
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg"
-            >
-                <div
-                    class="bg-[transparent] flex flex-wrap flex-grow mb-6 justify-evenly"
-                >
-                    <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/4.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                    >
-                        <Placeholder />
-                    </div>
-                    <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/4.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                    >
-                        <Placeholder />
-                    </div>
-                    <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/4.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                    >
-                        <Placeholder />
-                    </div>
-                    <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/4.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                    >
-                        <Placeholder />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 my-4">
-            <div class="grid grid-cols-3 gap-4">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg col-span-2"
-                >
-                    <div
-                        class="bg-[transparent] flex flex-wrap flex-grow mb-6 justify-evenly"
-                    >
-                        <div
-                            class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/4.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                        >
-                            <Placeholder />
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg col-span-1"
-                >
-                    <div
-                        class="bg-[transparent] flex flex-wrap flex-grow mb-6 justify-evenly"
-                    >
-                        <div
-                            class="bg-gray-200 dark:bg-gray-800 bg-opacity-25 w-[calc(100%/4.5)] lg:gap-8 p-6 px-4 sm:px-0 m-2"
-                        >
-                            <Placeholder />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <summary-stats-section>
+            <template #sum_benefits>
+                <numbers-card />
+            </template>
+            <template #sum_policies>
+                <numbers-card />
+            </template>
+            <template #sum_claims>
+                <numbers-card />
+            </template>
+            <template #sum_newusers>
+                <numbers-card />
+            </template>
+        </summary-stats-section>
+        <!--  -->
+        <month-to-month-stats-section>
+            <template #m2m_policies="{ fromdate, todate }">
+                <bar-chart :fromdate="fromdate" :todate="todate" />
+            </template>
+            <template #m2m_benefits="{ fromdate, todate }">
+                <bar-chart :fromdate="fromdate" :todate="todate" />
+            </template>
+            <template #m2m_claims="{ fromdate, todate }">
+                <bar-chart :fromdate="fromdate" :todate="todate" />
+            </template>
+        </month-to-month-stats-section>
+        <!--  -->
+        <detailed-stats-section>
+            <template #volume_line_graph="{ fromdate, todate }">
+                <line-graph :fromdate="fromdate" :todate="todate" />
+            </template>
+            <template #events_table="{ fromdate, todate }">
+                <events-table :fromdate="fromdate" :todate="todate" />
+            </template>
+        </detailed-stats-section>
     </div>
 </template>
