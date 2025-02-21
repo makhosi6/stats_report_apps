@@ -1,6 +1,6 @@
 <template>
     <Line
-        :chartData="{
+        :data="{
             ...chartData,
             ...{
                 labels: months,
@@ -12,7 +12,7 @@
                 }),
             },
         }"
-        :chartOptions="chartOptions"
+        :options="chartOptions"
     />
 </template>
 

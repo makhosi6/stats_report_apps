@@ -42,10 +42,10 @@
                 class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg col-span-2"
             >
                 <div
-                    class="bg-[transparent] display-[unset] mb-6 justify-start"
+                    class="bg-[transparent] display-[unset] justify-start"
                 >
                     <div
-                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25] lg:gap-8 p-6 px-4 sm:px-0 m-2"
+                        class="bg-gray-200 dark:bg-gray-800 bg-opacity-25] lg:gap-8 p-6 px-4 sm:px-0"
                     >
                         <slot
                             name="volume_line_graph"

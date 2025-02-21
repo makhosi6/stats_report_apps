@@ -1,6 +1,12 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import Welcome from "@/Components/Welcome.vue";
+
+defineProps({
+    stats: {
+        type: Object,
+    }
+});
 </script>
 
 <template>
@@ -30,7 +36,7 @@ import Welcome from "@/Components/Welcome.vue";
             </p>
         </template>
         <div class="py-12">
-            <Welcome />
+            <Welcome :stats="stats"  />
         </div>
     </AppLayout>
 </template>

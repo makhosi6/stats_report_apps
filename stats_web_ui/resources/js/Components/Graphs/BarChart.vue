@@ -2,7 +2,7 @@
     <div class="bg-white rounded-lg shadow-md dark:bg-gray-800">
         <Bar
             id="my-chart-id"
-            :chartData="{
+            :data="{
                 ...chartData,
                 ...{
                     labels: months,
@@ -17,7 +17,7 @@
                     }),
                 },
             }"
-            :chartOptions="chartOptions"
+            :options="chartOptions"
         />
     </div>
 </template>

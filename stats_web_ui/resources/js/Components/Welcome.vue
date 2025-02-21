@@ -1,6 +1,4 @@
 <script setup>
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
-import Placeholder from "@/Components/Placeholder.vue";
 import NumbersCard from "./NumbersCard.vue";
 import EventsTable from "./Graphs/EventsTable.vue";
 import BarChart from "./Graphs/BarChart.vue";
@@ -8,6 +6,14 @@ import LineGraph from "./Graphs/LineGraph.vue";
 import SummaryStatsSection from "@/Layouts/SummaryStatsSection.vue";
 import MonthToMonthStatsSection from "@/Layouts/MonthToMonthSection.vue";
 import DetailedStatsSection from "@/Layouts/DetailedStatsSection.vue";
+
+defineProps({
+    stats: {
+        type: Object,
+    },
+});
+
+const changeFormat = (value) => "+" + value + "%";
 </script>
 
 <template>
@@ -15,16 +21,40 @@ import DetailedStatsSection from "@/Layouts/DetailedStatsSection.vue";
         <!--  -->
         <summary-stats-section>
             <template #sum_benefits>
-                <numbers-card />
+                <numbers-card
+                    icon="benefits"
+                    :value="stats.totalBenefits.total_benefits.toString()"
+                    type="Total Benefits"
+                    time_frame="than last week"
+                    :change="Math.floor(Math.random() * 100)"
+                />
             </template>
             <template #sum_policies>
-                <numbers-card />
+                <numbers-card
+                    icon="policies"
+                    :value="stats.monthlyPolicies.total_policies.toString()"
+                    type="Total Polices"
+                    time_frame="than last week"
+                    :change="Math.floor(Math.random() * 100)"
+                />
             </template>
             <template #sum_claims>
-                <numbers-card />
+                <numbers-card
+                    icon="claims"
+                    :value="stats.totalClaims.total_claims.toString()"
+                    type="Total Claims"
+                    time_frame="than last week"
+                    :change="Math.floor(Math.random() * 100)"
+                />
             </template>
             <template #sum_newusers>
-                <numbers-card />
+                <numbers-card
+                    icon="general"
+                    :value="'ZAR ' + Math.floor(Math.random() * 100)"
+                    type="Average Cover"
+                    time_frame="than last week"
+                   :change="Math.floor(Math.random() * 100)"
+                />
             </template>
         </summary-stats-section>
         <!--  -->
@@ -45,7 +75,11 @@ import DetailedStatsSection from "@/Layouts/DetailedStatsSection.vue";
                 <line-graph :fromdate="fromdate" :todate="todate" />
             </template>
             <template #events_table="{ fromdate, todate }">
-                <events-table :fromdate="fromdate" :todate="todate" />
+                <events-table
+                    :fromdate="fromdate"
+                    :todate="todate"
+                    :events="stats.claimsByPolicyType"
+                />
             </template>
         </detailed-stats-section>
     </div>
