@@ -3,21 +3,30 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Response;
+
 class PolicyStatsService
 {
+    /**  */
+    function http_get(string $path, array | null $data): Response
+    {
+        $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
+        return Http::get($api_base_url . $path, $data);
+    }
     /**
      * Get the total number of policies.
      */
     public function getTotalPolicies(): int
     {
-        return 0;
+        return $this->http_get('policies/total', [])->json();
     }
     /**
      * Get the total number of cancelled policies.
      */
     public function getCancelledPolicies(): array
     {
-      return [];
+        return $this->http_get('', [])->json();
     }
 
     /**
@@ -25,7 +34,7 @@ class PolicyStatsService
      */
     public function getReinstatedPolicies(): array
     {
-      return [];
+        return $this->http_get('', [])->json();
     }
 
     /**
@@ -33,7 +42,7 @@ class PolicyStatsService
      */
     public function getPoliciesByType(): array
     {
-      return [];
+        return $this->http_get('', [])->json();
     }
 
     /**
@@ -41,7 +50,7 @@ class PolicyStatsService
      */
     public function getPoliciesByPremium(): array
     {
-      return [];
+        return $this->http_get('', [])->json();
     }
 
     /**
@@ -49,15 +58,21 @@ class PolicyStatsService
      */
     public function getDailyPolicies(): array
     {
-      return [];
+        return $this->http_get('', [])->json();
     }
-
+    /**
+     * Get the total number of policies across all policies for a give period.
+     */
+    public function getTotalPoliciesForTimeRange($timePeriod): array
+    {
+       return $this->http_get('policies/time-period', ['range' => $timePeriod])->json();
+    }
     /**
      * Get policies created weekly. for the last 4weeks
      */
     public function getWeeklyPolicies(): array
     {
-      return [];
+        return $this->http_get('', [])->json();
     }
 
     /**
@@ -65,7 +80,8 @@ class PolicyStatsService
      */
     public function getMonthlyPolicies(): array
     {
-      return [];
+        // return $this->http_get('', [])->json();
+        return $this->http_get('policies/total', [])->json();
     }
 
     /**
@@ -73,7 +89,7 @@ class PolicyStatsService
      */
     public function getPoliciesByBranch(): array
     {
-      return [];
+        return $this->http_get('policies/by-branch', [])->json();
     }
 
     /**
@@ -81,7 +97,8 @@ class PolicyStatsService
      */
     public function getPoliciesBySpecificBranch(string $branch): array
     {
-      return [];
+        // return $this->http_get('policies/branch', ['branch' => $branch])->json();
+        return $this->http_get('policies/total', ['branch' => $branch])->json();
     }
 
     /**
@@ -89,7 +106,7 @@ class PolicyStatsService
      */
     public function getTotalBenefits(): int
     {
-        return 0;
+        return $this->http_get('policies/total', [])->json();
     }
 
     /**
@@ -97,38 +114,15 @@ class PolicyStatsService
      */
     public function getAverageBenefitsPerPolicy(): float
     {
-        return 0.0;
+        // return $this->http_get('policies/average-benefits', [])->json();
+        return 1.5;
     }
-
-    /**
-     * Get benefits grouped by policy type.
-     */
-    public function getBenefitsByPolicyType(): array
-    {
-      return [];
-    }
-
-    /**
-     * Get the most common benefits.
-     */
-    public function getMostCommonBenefits(): array
-    {
-      return [];
-    }
-
-    /**
-     * Get the total number of claims.
-     */
-    public function getTotalClaims(): int
-    {
-        return 0;
-    }
-
-    /**
+        /**
      * Get claims grouped by policy type.
      */
     public function getClaimsByPolicyType(): array
     {
-        return [];
+       return $this->http_get('policies/by-type', [])->json();
     }
+
 }

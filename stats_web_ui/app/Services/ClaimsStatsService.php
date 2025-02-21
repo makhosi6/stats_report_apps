@@ -2,14 +2,21 @@
 
 
 namespace App\Services;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Response;
 
-class ClaimsStatsService  {
+class ClaimsStatsService {
+    function http_get(string $path, array | null $data): Response
+    {
+        $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
+        return Http::get($api_base_url . $path, $data);
+    }
   /**
      * Get the total number of claims.
      */
     public function getTotalClaims(): array
     {
-       return [];
+       return $this->http_get('claims/total', [])->json();
     }
 
     /**
@@ -17,7 +24,7 @@ class ClaimsStatsService  {
      */
     public function getApprovedClaims(): array
     {
-       return [];
+       return $this->http_get('claims/approved', [])->json();
     }
 
     /**
@@ -25,7 +32,7 @@ class ClaimsStatsService  {
      */
     public function getRejectedClaims(): array
     {
-       return [];
+       return $this->http_get('claims/rejected', [])->json();
     }
 
     /**
@@ -33,7 +40,7 @@ class ClaimsStatsService  {
      */
     public function getClaimsByPolicyType(): array
     {
-       return [];
+       return $this->http_get('policies/by-type', [])->json();
     }
 
     /**
@@ -41,7 +48,7 @@ class ClaimsStatsService  {
      */
     public function getClaimsByBenefitType(): array
     {
-       return [];
+       return $this->http_get('claims/by-benefit', [])->json();
     }
 
     /**
@@ -49,7 +56,7 @@ class ClaimsStatsService  {
      */
     public function getClaimsOverTimePeriod(string $timePeriod): array
     {
-       return [];
+       return $this->http_get('claims/time-period', ["range"=> $timePeriod])->json();
     }
 
     /**
@@ -57,7 +64,7 @@ class ClaimsStatsService  {
      */
     public function getDailyClaims(): array
     {
-       return [];
+       return $this->http_get('claims/daily', [])->json();
     }
 
     /**
@@ -65,7 +72,7 @@ class ClaimsStatsService  {
      */
     public function getWeeklyClaims(): array
     {
-       return [];
+       return $this->http_get('claims/weekly', [])->json();
     }
 
     /**
@@ -73,6 +80,6 @@ class ClaimsStatsService  {
      */
     public function getMonthlyClaims(): array
     {
-       return [];
+        return $this->http_get('claims/weekly', [])->json();
     }
 }

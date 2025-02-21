@@ -2,24 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Services\BenefitStatsService;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class BenefitStatsController extends Controller
 {
     //
-
-    public function show(string $id)
+    public function totalBenefits()
     {
-        $http_service = app(BenefitStatsService::class);
-        $data = $http_service->getMostCommonBenefits();
-        return view('dashboard');
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getTotalBenefits();
     }
 
-    public function index()
+    public function benefitsTimePeriod(string $timePeriod)
     {
-        view('dashboard');
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getTotalBenefitsForTimeRange($timePeriod);
+    }
+
+    public function averageBenefitsPerPolicy()
+    {
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getAverageBenefitsPerPolicy();
+    }
+
+    public function benefitsByPolicyType()
+    {
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getBenefitsByPolicyType();
+    }
+
+    public function mostCommonBenefits()
+    {
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getMostCommonBenefits();
+    }
+
+    public function benefitsCreatedDaily()
+    {
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getDailyBenefits();
+    }
+
+    public function benefitsCreatedWeekly()
+    {
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getWeeklyBenefits();
+    }
+
+    public function benefitsCreatedMonthly()
+    {
+        $stats_service = app(BenefitStatsService::class);
+        return $stats_service->getMonthlyBenefits();
     }
 }
