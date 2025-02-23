@@ -1,6 +1,6 @@
 FROM python:3.12
 WORKDIR /app
 RUN pip install Flask==3.1.0
-RUN pip install SQLAlchemy==3.1.2
+RUN pip install SQLAlchemy==2.0.38
 COPY . .
-CMD ["python", "app.py"]
+CMD ["python", "run.py"]
