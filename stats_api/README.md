@@ -8,6 +8,7 @@
 | `/api/stats/policies/cancelled`              | `GET`       | Total number of cancelled policies.             |
 | `/api/stats/policies/reinstated`             | `GET`       | Total number of reinstated policies.            |
 | `/api/stats/policies/by-type`                | `GET`       | Policies grouped by type (e.g., legal, funeral).|
+| `/api/stats/policies/time-period`            | `GET`     | policies data over specific time periods.          |
 | `/api/stats/policies/by-premium`             | `GET`       | Policies grouped by premium ranges.             |
 | `/api/stats/policies/created-daily`          | `GET`       | Number of policies created daily.               |
 | `/api/stats/policies/created-weekly`         | `GET`       | Number of policies created weekly.              |
@@ -20,6 +21,7 @@
 | Route                                        | HTTP Method | Description                                         |
 |----------------------------------------------|-------------|-----------------------------------------------------|
 | `/api/stats/benefits/total`                  | `GET`       | Total number of benefits across all policies.       |
+| `/api/stats/benefits/time-period`            | `GET`       | benefits data over specific time periods.          |
 | `/api/stats/benefits/average-per-policy`     | `GET`       | Average number of benefits per policy.              |
 | `/api/stats/benefits/by-policy-type`         | `GET`       | Benefits grouped by policy type.                    |
 | `/api/stats/benefits/most-common`            | `GET`       | Most common benefits across policies.               |
