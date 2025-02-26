@@ -4,20 +4,26 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Log;
 
 class PolicyStatsService
 {
-    /**  */
-    function http_get(string $path, array | null $data): Response
+    function http_get(string $path, array | null $data)
     {
-        $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
-        return Http::get($api_base_url . $path, $data);
+        try {
+            $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
+            return Http::get($api_base_url . $path, $data);
+        } catch (\Throwable $th) {
+            Log::error("Error at policy stats http_get", $th);
+            return [
+                "error" => $th->getTraceAsString()
+            ];
+        }
     }
     /**
      * Get the total number of policies.
      */
-    public function getTotalPolicies(): int
+    public function getTotalPolicies(): array
     {
         return $this->http_get('policies/total', [])->json();
     }
@@ -65,14 +71,14 @@ class PolicyStatsService
      */
     public function getTotalPoliciesForTimeRange($timePeriod): array
     {
-       return $this->http_get('policies/time-period', ['range' => $timePeriod])->json();
+        return $this->http_get('policies/time-period', ['range' => $timePeriod])->json();
     }
     /**
      * Get policies created weekly. for the last 4weeks
      */
     public function getWeeklyPolicies(): array
     {
-        return $this->http_get('', [])->json();
+        return $this->http_get('policies/created-weekly', [])->json();
     }
 
     /**
@@ -104,7 +110,7 @@ class PolicyStatsService
     /**
      * Get the total number of benefits across all policies.
      */
-    public function getTotalBenefits(): int
+    public function getTotalBenefits(): array
     {
         return $this->http_get('policies/total', [])->json();
     }
@@ -117,12 +123,11 @@ class PolicyStatsService
         // return $this->http_get('policies/average-benefits', [])->json();
         return 1.5;
     }
-        /**
+    /**
      * Get claims grouped by policy type.
      */
     public function getClaimsByPolicyType(): array
     {
-       return $this->http_get('policies/by-type', [])->json();
+        return $this->http_get('policies/by-type', [])->json();
     }
-
 }

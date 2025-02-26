@@ -3,14 +3,22 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
-class BenefitStatsService extends BaseHttpService {
+class BenefitStatsService {
 
-    function http_get(string $path, array | null $data): Response
+    function http_get(string $path, array | null $data)
     {
-        $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
-        return parent::http_get($api_base_url . $path, $data);
+        try {
+            $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
+            return Http::get($api_base_url . $path, $data);
+        } catch (\Throwable $th) {
+            Log::error("Error at policy stats http_get", $th);
+            return [
+                "error" => $th->getTraceAsString()
+            ];
+        }
     }
     /**
      * Get the total number of benefits across all policies.
