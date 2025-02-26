@@ -68,72 +68,17 @@
 }
 ```
 
-#### **2. `/api/stats/benefits/average-per-policy`**
-```json
-{
-  "data": {
-    "average_benefits_per_policy": 3.2
-  }
-}
-```
+## installation
 
-#### **3. `/api/stats/claims/time-period?start_date=2024-01-01&end_date=2024-12-31`**
-```json
-{
-  "data": [
-    {
-      "date": "2024-01-01",
-      "claims": 120
-    },
-    {
-      "date": "2024-01-02",
-      "claims": 95
-    },
-    {
-      "date": "2024-01-03",
-      "claims": 80
-    }
-  ]
-}
-```
+- ```bash
 
-#### **4. `/api/stats/policies/by-branch`**
-```json
-{
-  "data": [
-    {
-      "branch": "Johannesburg",
-      "total_policies": 500
-    },
-    {
-      "branch": "Cape Town",
-      "total_policies": 300
-    },
-    {
-      "branch": "Durban",
-      "total_policies": 200
-    }
-  ]
-}
-```
-
-#### **2. `/api/stats/policies/branch/<branch>`**
-```json
-{
-  "data": {
-    "branch": "Johannesburg",
-    "policies": [
-      {
-        "policy_code": "PC_25",
-        "product_name": "Popcru 25",
-        "created_at": "2024-01-01"
-      },
-      {
-        "policy_code": "LP",
-        "product_name": "Legal Prestige",
-        "created_at": "2024-01-02"
-      }
-    ]
-  }
-}
-```
+  pyenv global 3.12
+  pyenv exec python -m venv env
+  source env/bin/activate
+  pip install Flask==3.1.0
+  pip install SQLAlchemy==2.0.38
+  pip install Flask-SQLAlchemy==3.1.1
+  pip install pymysql
+  pip install mysql-connector-python
+ 
+ ```

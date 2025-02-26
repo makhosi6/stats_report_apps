@@ -44,7 +44,7 @@ Route::middleware([
                 "policiesBySpecificBranch" => app(PolicyStatsService::class)->getPoliciesBySpecificBranch('null'),
                 "averageBenefitsPerPolicy" => app(PolicyStatsService::class)->getAverageBenefitsPerPolicy(),
                 "policiesByBranch" => app(PolicyStatsService::class)->getPoliciesByBranch(),
-                "claimsByPolicyType" => app(PolicyStatsService::class)->getClaimsByPolicyType(),
+                // "claimsByPolicyType" => app(PolicyStatsService::class)->getClaimsByPolicyType(),
                 "monthlyPolicies" => app(PolicyStatsService::class)->getMonthlyPolicies(),
             ]
         ]);

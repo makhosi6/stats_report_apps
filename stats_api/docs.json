@@ -1,0 +1,354 @@
+{
+    "info": {
+      "_postman_id": "your-postman-id-here",
+      "name": "Flask API Collection",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Benefits",
+        "item": [
+          {
+            "name": "Get Total Benefits",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/benefits/total",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "benefits", "total"]
+              }
+            }
+          },
+          {
+            "name": "Get Benefits by Time Period",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/benefits/time-period?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "benefits", "time-period"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Benefits Created Daily",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/benefits/created-daily?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "benefits", "created-daily"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Benefits Created Weekly",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/benefits/created-weekly?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "benefits", "created-weekly"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Benefits Created Monthly",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/benefits/created-monthly?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "benefits", "created-monthly"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Policies",
+        "item": [
+          {
+            "name": "Get Total Policies",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/policies/total",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "policies", "total"]
+              }
+            }
+          },
+          {
+            "name": "Get Policies by Time Period",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/policies/time-period?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "policies", "time-period"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Policies Created Daily",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/policies/created-daily?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "policies", "created-daily"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Policies Created Weekly",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/policies/created-weekly?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "policies", "created-weekly"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Policies Created Monthly",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/policies/created-monthly?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "policies", "created-monthly"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Claims",
+        "item": [
+          {
+            "name": "Get Total Claims",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/claims/total",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "claims", "total"]
+              }
+            }
+          },
+          {
+            "name": "Get Claims by Time Period",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/claims/time-period?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "claims", "time-period"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Claims Created Daily",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/claims/daily?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "claims", "daily"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Claims Created Weekly",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/claims/weekly?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "claims", "weekly"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Claims Created Monthly",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://127.0.0.1:5000/api/stats/claims/monthly?start_date=2023-09-01&end_date=2023-09-30",
+                "protocol": "http",
+                "host": ["127.0.0.1"],
+                "port": "5000",
+                "path": ["api", "stats", "claims", "monthly"],
+                "query": [
+                  {
+                    "key": "start_date",
+                    "value": "2023-09-01"
+                  },
+                  {
+                    "key": "end_date",
+                    "value": "2023-09-30"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }

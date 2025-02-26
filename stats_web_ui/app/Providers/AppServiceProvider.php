@@ -28,15 +28,9 @@ class AppServiceProvider extends ServiceProvider
 
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
-        $user_acquisition = User::select(DB::raw("COUNT(*) as count"))
-            ->whereYear('created_at', date('Y'))
-            ->groupBy(DB::raw("Month(created_at)"))
-            ->pluck('count');
+        $user_acquisition = [];
 
-        $users_activity = User::select(DB::raw("COUNT(*) as count"))
-            ->whereYear('updated_at', date('Y'))
-            ->groupBy(DB::raw("Month(updated_at)"))
-            ->pluck('count');
+        $users_activity = [];
         //
         View::share('users_activity', $users_activity);
         View::share('user_acquisition', $user_acquisition);

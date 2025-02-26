@@ -16,6 +16,8 @@ services:
     # volumes:
     #   - ./db:/var/lib/mysql
     restart: always
+    networks:
+      - stats_bridge
 
   stats_api:
     build:
@@ -24,13 +26,16 @@ services:
     depends_on:
       - db
     environment:
-      DB_HOST: $ ${DB_HOST}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
       DB_NAME: ${DB_DATABASE}
       DB_USER: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5000:5000"
     restart: always
+    networks:
+      - stats_bridge
 
   stats_web_ui_app: 
     build:
@@ -52,3 +57,9 @@ services:
       - '${APP_PORT:-80}:80'
       - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
     restart: always
+    networks:
+      - stats_bridge
+
+networks:
+  stats_bridge:
+    driver: bridge
