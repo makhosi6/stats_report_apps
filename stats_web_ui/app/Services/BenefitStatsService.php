@@ -14,10 +14,11 @@ class BenefitStatsService {
             $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
             return Http::get($api_base_url . $path, $data);
         } catch (\Throwable $th) {
-            Log::error("Error at policy stats http_get", $th);
-            return [
-                "error" => $th->getTraceAsString()
-            ];
+            Log::error("Error at policy stats http_get", ["Error" => $th->getTraceAsString()]);
+            throw new \Exception($th->getMessage());
+            // return (object) [
+            //     "error" => $th->getTraceAsString()
+            // ];
         }
     }
     /**
@@ -30,9 +31,9 @@ class BenefitStatsService {
     /**
      * Get the total number of benefits across all policies for a give period.
      */
-    public function getTotalBenefitsForTimeRange($timePeriod): array
+    public function getTotalBenefitsForTimeRange($reqParams): array
     {
-       return $this->http_get('benefits/time-period', ['range' => $timePeriod])->json();
+       return $this->http_get('benefits/time-period', $reqParams)->json();
     }
 
     /**

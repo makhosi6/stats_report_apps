@@ -32,19 +32,33 @@ Route::middleware([
                 "totalBenefits" => app(BenefitStatsService::class)->getTotalBenefits(),
                 "mostCommonBenefits" => app(BenefitStatsService::class)->getMostCommonBenefits(),
                 "monthlyBenefits" => app(BenefitStatsService::class)->getMonthlyBenefits(),
-                "totalBenefitsForTimeRange" => app(BenefitStatsService::class)->getTotalBenefitsForTimeRange('null'),
+                "totalBenefitsForTimeRange" => app(BenefitStatsService::class)->getTotalBenefitsForTimeRange([
+                    'start_date' => '2024-01-01',
+                    'end_date'   => '2025-03-03'
+                ]),
 
                 /// claims
-                "claimsOverTimePeriod" => app(ClaimsStatsService::class)->getClaimsOverTimePeriod('null'),
+                "claimsOverTimePeriod" => app(ClaimsStatsService::class)->getClaimsOverTimePeriod([
+                    'start_date' => '2024-01-01',
+                    'end_date'   => '2025-03-03'
+                ]),
                 "monthlyClaims" => app(ClaimsStatsService::class)->getMonthlyClaims(),
                 "totalClaims" => app(ClaimsStatsService::class)->getTotalClaims(),
                 "monthlyClaims" => app(ClaimsStatsService::class)->getMonthlyClaims(),
 
                 /// policies
-                "policiesBySpecificBranch" => app(PolicyStatsService::class)->getPoliciesBySpecificBranch('null'),
+                "policiesBySpecificBranch" => app(PolicyStatsService::class)->getPoliciesBySpecificBranch('Johannesburg'),
+                "policiesForTimeRange" => app(PolicyStatsService::class)->getTotalPoliciesForTimeRange([
+                    'start_date' => '2024-01-01',
+                    'end_date'   => '2025-03-03'
+                ]),
+                "totalPolicies" => app(PolicyStatsService::class)->getTotalPolicies(),
                 "averageBenefitsPerPolicy" => app(PolicyStatsService::class)->getAverageBenefitsPerPolicy(),
                 "policiesByBranch" => app(PolicyStatsService::class)->getPoliciesByBranch(),
-                // "claimsByPolicyType" => app(PolicyStatsService::class)->getClaimsByPolicyType(),
+                "claimsByPolicyType" => app(PolicyStatsService::class)->getClaimsByPolicyType([
+                    'start_date' => '2024-01-01',
+                    'end_date'   => '2025-03-03'
+                ]),
                 "monthlyPolicies" => app(PolicyStatsService::class)->getMonthlyPolicies(),
             ]
         ]);

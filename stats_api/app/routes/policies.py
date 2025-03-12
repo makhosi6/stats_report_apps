@@ -1,19 +1,22 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from datetime import datetime, timedelta
-from app.models.all import DLPolicy, db
+from app.models.all import DLPolicy, DLBranch, db
+from app.utils import get_time_filters
 
 policies_bp = Blueprint("policies", __name__, url_prefix="/api/stats/policies")
 
 
 @policies_bp.route("/total", methods=["GET"])
 def total_policies():
+    offset = request.args.get('offset') or 20
+    now, last_week, last_month = get_time_filters(); 
     total = DLPolicy.query.count()
-    last_month = DLPolicy.query.filter(DLPolicy.date_entered >= "2023-09-01").count()
+    policies_last_month = DLPolicy.query.filter(DLPolicy.date_entered >= last_month).count()
     return jsonify(
         {
             "total_policies": total,
-            "last_month": last_month,
-            "properties": [b.serialize() for b in DLPolicy.query.limit(10)],
+            "last_month": policies_last_month,
+            "properties": [b.serialize() for b in DLPolicy.query.limit(offset)],
         }
     )
 
@@ -30,25 +33,21 @@ def reinstated_policies():
     return jsonify({"reinstated_policies": reinstated})
 
 
-@policies_bp.route("/by-type", methods=["GET"])
+@policies_bp.route("/bytype", methods=["GET"])
 def policies_by_type():
-    results = (
-        db.session.query(DLPolicy.policy_plan_code, db.func.count(DLPolicy.id))
-        .group_by(DLPolicy.policy_plan_code)
-        .all()
-    )
-    return jsonify({result[0]: result[1] for result in results})
+    return jsonify({})
 
 
 @policies_bp.route("/time-period", methods=["GET"])
 def policies_time_period():
-    last_week = DLPolicy.query.filter(
-        DLPolicy.date_entered >= datetime.now() - timedelta(days=7)
+    now, last_week, last_month = get_time_filters(); 
+    policies_last_week = DLPolicy.query.filter(
+        DLPolicy.date_entered >= last_week
     ).count()
-    last_month = DLPolicy.query.filter(
-        DLPolicy.date_entered >= datetime.now() - timedelta(days=30)
+    policies_last_month = DLPolicy.query.filter(
+        DLPolicy.date_entered >= last_month
     ).count()
-    return jsonify({"last_week": last_week, "last_month": last_month})
+    return jsonify({"last_week": policies_last_week, "last_month": policies_last_month})
 
 
 @policies_bp.route("/by-premium", methods=["GET"])
@@ -101,14 +100,17 @@ def policies_created_monthly():
 @policies_bp.route("/by-branch", methods=["GET"])
 def policies_by_branch():
     results = (
-        db.session.query(DLPolicy.dl_branch_id, db.func.count(DLPolicy.id))
-        .group_by(DLPolicy.dl_branch_id)
+        db.session.query(DLBranch.name, db.func.count(DLPolicy.dl_branch_id)).filter(DLPolicy.dl_branch_id == DLBranch.id)
+        .group_by(DLBranch.name)
         .all()
     )
     return jsonify({result[0]: result[1] for result in results})
 
 
-@policies_bp.route("/branch/<branch>", methods=["GET"])
-def policies_for_branch(branch):
-    policies = DLPolicy.query.filter(DLPolicy.dl_branch_id == branch).all()
+@policies_bp.route("/branch/<branchname>", methods=["GET"])
+def policies_for_branch(branchname):
+    current = DLPolicy.query.filter(DLBranch.name == branchname).first()
+    policies = DLPolicy.query.filter(DLPolicy.dl_branch_id == current.id).all()
     return jsonify([p.serialize() for p in policies])
+
+

@@ -14,10 +14,12 @@ class PolicyStatsService
             $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
             return Http::get($api_base_url . $path, $data);
         } catch (\Throwable $th) {
-            Log::error("Error at policy stats http_get", $th);
-            return [
-                "error" => $th->getTraceAsString()
-            ];
+            Log::error("Error at policy stats http_get", ["Error" => $th->getTraceAsString()]);
+
+            throw new \Exception($th->getMessage());
+            // return (object) [
+            //     "error" => $th->getTraceAsString()
+            // ];
         }
     }
     /**
@@ -32,7 +34,7 @@ class PolicyStatsService
      */
     public function getCancelledPolicies(): array
     {
-        return $this->http_get('', [])->json();
+        return $this->http_get('policies/cancelled', [])->json();
     }
 
     /**
@@ -40,7 +42,7 @@ class PolicyStatsService
      */
     public function getReinstatedPolicies(): array
     {
-        return $this->http_get('', [])->json();
+        return $this->http_get('policies/reinstated', [])->json();
     }
 
     /**
@@ -48,7 +50,7 @@ class PolicyStatsService
      */
     public function getPoliciesByType(): array
     {
-        return $this->http_get('', [])->json();
+        return $this->http_get('policies/bytype', [])->json();
     }
 
     /**
@@ -56,7 +58,7 @@ class PolicyStatsService
      */
     public function getPoliciesByPremium(): array
     {
-        return $this->http_get('', [])->json();
+        return $this->http_get('policies/by-premium', [])->json();
     }
 
     /**
@@ -64,14 +66,14 @@ class PolicyStatsService
      */
     public function getDailyPolicies(): array
     {
-        return $this->http_get('', [])->json();
+        return $this->http_get('policies/created-daily', [])->json();
     }
     /**
      * Get the total number of policies across all policies for a give period.
      */
-    public function getTotalPoliciesForTimeRange($timePeriod): array
+    public function getTotalPoliciesForTimeRange($reqParams): array
     {
-        return $this->http_get('policies/time-period', ['range' => $timePeriod])->json();
+        return $this->http_get('policies/time-period', $reqParams)->json();
     }
     /**
      * Get policies created weekly. for the last 4weeks
@@ -86,7 +88,7 @@ class PolicyStatsService
      */
     public function getMonthlyPolicies(): array
     {
-        // return $this->http_get('', [])->json();
+        // return $this->http_get('policies/', [])->json();
         return $this->http_get('policies/total', [])->json();
     }
 
@@ -101,10 +103,9 @@ class PolicyStatsService
     /**
      * Get policies for a specific branch.
      */
-    public function getPoliciesBySpecificBranch(string $branch): array
+    public function getPoliciesBySpecificBranch(string $branchName): array
     {
-        // return $this->http_get('policies/branch', ['branch' => $branch])->json();
-        return $this->http_get('policies/total', ['branch' => $branch])->json();
+        return $this->http_get("policies/branch/" . $branchName, [])->json();
     }
 
     /**
@@ -118,16 +119,16 @@ class PolicyStatsService
     /**
      * Get the average number of benefits per policy.
      */
-    public function getAverageBenefitsPerPolicy(): float
+    public function getAverageBenefitsPerPolicy()
     {
         // return $this->http_get('policies/average-benefits', [])->json();
-        return 1.5;
+        return 2.6;
     }
     /**
      * Get claims grouped by policy type.
      */
-    public function getClaimsByPolicyType(): array
+    public function getClaimsByPolicyType($reqParams): array
     {
-        return $this->http_get('policies/by-type', [])->json();
+        return $this->http_get('policies/bytype', $reqParams)->json();
     }
 }

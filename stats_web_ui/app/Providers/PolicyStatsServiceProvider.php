@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
 
 class PolicyStatsServiceProvider extends ServiceProvider
 {
@@ -23,12 +24,8 @@ class PolicyStatsServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app->singleton('auth2', fn ($app) => new AuthManager($app));
-        $policy_service =  new PolicyStatsService();
-        view()->share('count1', [1, 2, 3]);
-        view()->share('key1', 'value');
-        Facades\View::share('dashboard', PolicyStatsComposer::class);
-        Facades\View::composer(['welcome', 'dashboard','view1'], PolicyStatsComposer::class);
+        $policy_service = new PolicyStatsService();
+        Inertia::share('count1', [1, 2, 3]);
         $this->app-> singleton(PolicyStatsService::class, function (Application $app) use($policy_service) {
             return $policy_service;
         });

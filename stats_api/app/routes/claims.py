@@ -1,27 +1,32 @@
 from flask import Blueprint, jsonify, request
 from datetime import datetime, timedelta
 from app.models.all import DLClaim, db
+from app.utils import get_time_filters
 
 claims_bp = Blueprint('claims', __name__,  url_prefix='/api/stats/claims')
 
 @claims_bp.route('/total', methods=['GET'])
 def total_claims():
+    offset = request.args.get('offset') or 20
+    now, last_week, last_month = get_time_filters(); 
     total = DLClaim.query.count()
-    last_month = DLClaim.query.filter(DLClaim.date_entered >= '2023-09-01').count()
+    claims_last_month = DLClaim.query.filter(DLClaim.date_entered >= last_month).count()
     return jsonify({
         "total_claims": total,
-        "last_month": last_month,
-        "properties": [b.serialize() for b in DLClaim.query.limit(10)]
+        "last_month": claims_last_month,
+        "properties": [b.serialize() for b in DLClaim.query.limit(offset)]
     })
     
-@claims_bp.route('/by-type', methods=['GET'])
-def by_type():
-    total = DLClaim.query.count()
-    last_month = DLClaim.query.filter(DLClaim.date_entered >= '2023-09-01').count()
+@claims_bp.route('/bytype', methods=['GET'])
+def claims_by_type():
+    offset = request.args.get('offset') or 20
+    now, last_week, last_month = get_time_filters(); 
+    total_policies = DLClaim.query.count()
+    policies_last_month = DLClaim.query.filter(DLClaim.date_entered >= last_month).count()
     return jsonify({
-        "total_claims": total,
-        "last_month": last_month,
-        "properties": [b.serialize() for b in DLClaim.query.limit(10)]
+        "total_claims": total_policies,
+        "last_month": policies_last_month,
+        "properties": [b.serialize() for b in DLClaim.query.limit(offset)]
     })
 
 @claims_bp.route('/approved', methods=['GET'])

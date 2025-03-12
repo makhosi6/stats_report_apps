@@ -2,8 +2,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class DLBenefit(db.Model):
-    __tablename__ = 'dl_benefit'
+    __tablename__ = "dl_benefit"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     date_entered = db.Column(db.DateTime)
@@ -63,17 +64,22 @@ class DLBenefit(db.Model):
     external_agent_id = db.Column(db.String(36))
     waiting_period_descriptions = db.Column(db.Text)
     is_summed_in_total_cover = db.Column(db.Boolean)
-    
+
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "date_entered": self.date_entered.isoformat() if self.date_entered else None,
-            "date_modified": self.date_modified.isoformat() if self.date_modified else None
+            "date_entered": (
+                self.date_entered.isoformat() if self.date_entered else None
+            ),
+            "date_modified": (
+                self.date_modified.isoformat() if self.date_modified else None
+            ),
         }
 
+
 class DLPolicy(db.Model):
-    __tablename__ = 'dl_policy'
+    __tablename__ = "dl_policy"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     date_entered = db.Column(db.DateTime)
@@ -138,17 +144,50 @@ class DLPolicy(db.Model):
     mandate_status = db.Column(db.String(255))
     policy_renewal_date = db.Column(db.DateTime)
     activated_by_user_id = db.Column(db.String(36))
-    
+
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "date_entered": self.date_entered.isoformat() if self.date_entered else None,
-            "date_modified": self.date_modified.isoformat() if self.date_modified else None
-    }
+            "date_entered": (
+                self.date_entered.isoformat() if self.date_entered else None
+            ),
+            "date_modified": (
+                self.date_modified.isoformat() if self.date_modified else None
+            ),
+        }
+
+
+class DLBranch(db.Model):
+    __tablename__ = "dl_branch"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    date_entered = db.Column(db.DateTime)
+    date_modified = db.Column(db.DateTime)
+    modified_user_id = db.Column(db.String(36))
+    created_by = db.Column(db.String(36))
+    description = db.Column(db.Text)
+    deleted = db.Column(db.Boolean)
+    assigned_user_id = db.Column(db.String(36))
+    province = db.Column(db.String(36))
+    phone_number = db.Column(db.String(36))
+    address_city = db.Column(db.String(36))
+    address_postalcode = db.Column(db.String(36))
+    address = db.Column(db.String(255))
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "date_entered": (
+                self.date_entered.isoformat() if self.date_entered else None
+            ),
+            "date_modified": (
+                self.date_modified.isoformat() if self.date_modified else None
+            ),
+        }
 
 class DLClaim(db.Model):
-    __tablename__ = 'dl_claim'
+    __tablename__ = "dl_claim"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     date_entered = db.Column(db.DateTime)
@@ -208,11 +247,19 @@ class DLClaim(db.Model):
     legal_matter = db.Column(db.String(255))
     beneficiary_id = db.Column(db.String(36))
     original_claim_id = db.Column(db.String(36))
-    
+
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
-            "date_entered": self.date_entered.isoformat() if self.date_entered else None,
-            "date_modified": self.date_modified.isoformat() if self.date_modified else None
+            "status": self.status,
+            "amount": self.original_claim_amount,
+            "sub_status": self.sub_status,
+            "date_entered": (
+                self.date_entered.isoformat() if self.date_entered else None
+            ),
+            "type": (self.claim_event if self.claim_event else None),
+            "date_modified": (
+                self.date_modified.isoformat() if self.date_modified else None
+            ),
         }

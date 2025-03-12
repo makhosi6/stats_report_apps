@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from app.models.all import DLBenefit, db
+from app.utils import get_time_filters
 
 home_bp = Blueprint('home', __name__)
 
@@ -10,11 +11,12 @@ def home():
 
 
 benefits_bp = Blueprint('benefits', __name__, url_prefix='/api/stats/benefits')
-
 @benefits_bp.route('/total', methods=['GET'])
 def total_benefits():
+    now, last_week, last_month = get_time_filters(); 
     total = DLBenefit.query.count()
-    last_month = DLBenefit.query.filter(DLBenefit.date_entered >= '2023-09-01').count()
+    last_month = DLBenefit.query.filter(DLBenefit.date_entered >= last_month).count()
+    
     return jsonify({
         "total_benefits": total,
         "last_month": last_month,
@@ -24,11 +26,12 @@ def total_benefits():
 
 @benefits_bp.route('/time-period', methods=['GET'])
 def benefits_time_period():
-    last_week = DLBenefit.query.filter(DLBenefit.date_entered >= datetime.now() - timedelta(days=7)).count()
-    last_month = DLBenefit.query.filter(DLBenefit.date_entered >= datetime.now() - timedelta(days=30)).count()
+    now, last_week, last_month = get_time_filters(); 
+    benefits_last_week = DLBenefit.query.filter(DLBenefit.date_entered >= last_week).count()
+    benefits_last_month = DLBenefit.query.filter(DLBenefit.date_entered >= last_month).count()
     return jsonify({
-        "last_week": last_week,
-        "last_month": last_month
+        "last_week": benefits_last_week,
+        "last_month": benefits_last_month
     })
 
 @benefits_bp.route('/average-per-policy', methods=['GET'])
@@ -47,7 +50,8 @@ def benefits_by_policy_type():
 
 @benefits_bp.route('/most-common', methods=['GET'])
 def most_common_benefits():
-    results = db.session.query(DLBenefit.name, db.func.count(DLBenefit.id)).group_by(DLBenefit.name).order_by(db.func.count(DLBenefit.id).desc()).limit(5).all()
+    offset = request.args.get('offset') or 12
+    results = db.session.query(DLBenefit.name, db.func.count(DLBenefit.id)).group_by(DLBenefit.name).order_by(db.func.count(DLBenefit.id).desc()).limit(offset).all()
     return jsonify({result[0]: result[1] for result in results})
 
 @benefits_bp.route('/created-daily', methods=['GET'])

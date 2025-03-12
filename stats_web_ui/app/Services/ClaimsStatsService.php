@@ -17,10 +17,11 @@ class ClaimsStatsService
             $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
             return Http::get($api_base_url . $path, $data);
         } catch (\Throwable $th) {
-            Log::error("Error at claims stats http_get", $th);
-            return [
-                "error" => $th->getTraceAsString()
-            ];
+            Log::error("Error at claims stats http_get", ["Error" => $th->getTraceAsString()]);
+            throw new \Exception($th->getMessage());
+            // return (object) [
+            //     "error" => $th->getTraceAsString()
+            // ];
         }
     }
     /**
@@ -66,9 +67,9 @@ class ClaimsStatsService
     /**
      * Get claims data over specific time periods.
      */
-    public function getClaimsOverTimePeriod(string $timePeriod): array
+    public function getClaimsOverTimePeriod($reqParams): array
     {
-        return $this->http_get('claims/time-period', ["range" => $timePeriod])->json();
+        return $this->http_get('claims/time-period', $reqParams)->json();
     }
 
     /**
@@ -92,6 +93,6 @@ class ClaimsStatsService
      */
     public function getMonthlyClaims(): array
     {
-        return $this->http_get('claims/weekly', [])->json();
+        return $this->http_get('claims/monthly', [])->json();
     }
 }

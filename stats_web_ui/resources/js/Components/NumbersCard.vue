@@ -90,12 +90,21 @@ const getIcon = (iconName) => {
             <span
                 class="text-sm font-light"
                 :class="
-                    change >= Number(30) ? 'text-green-600' : 'text-red-500'
+                    Number(change) > 0
+                        ? change >= Number(30)
+                            ? 'text-green-600'
+                            : 'text-red-500'
+                        : 'text-gray-600 dark:text-gray-400'
                 "
-                >{{ change >= Number(30) ? "+" : "-"
-                }}<span>{{ change }}%</span>
+                >{{
+                    Number(change) > 0
+                        ? Number(change) >= Number(30)
+                            ? "+"
+                            : "-"
+                        : ""
+                }}<span>{{ change }} {{ isNaN(change) ? '': '%  ' }}</span>
                 <span class="text-gray-600 dark:text-gray-400">
-                    - {{ time_frame }}
+                 - {{ time_frame }}
                 </span>
             </span>
         </div>
