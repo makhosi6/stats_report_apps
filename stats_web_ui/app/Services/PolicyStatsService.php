@@ -12,14 +12,15 @@ class PolicyStatsService
     {
         try {
             $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
-            return Http::get($api_base_url . $path, $data);
+            $default_get_params = [
+                'start_date' => date('Y-m-d', strtotime('-12 months')),
+                'end_date' => date('Y-m-d'),
+                'offset' => 15
+            ];
+            return Http::get($api_base_url . $path, array_merge($default_get_params, $data),);
         } catch (\Throwable $th) {
             Log::error("Error at policy stats http_get", ["Error" => $th->getTraceAsString()]);
-
             throw new \Exception($th->getMessage());
-            // return (object) [
-            //     "error" => $th->getTraceAsString()
-            // ];
         }
     }
     /**
@@ -50,7 +51,8 @@ class PolicyStatsService
      */
     public function getPoliciesByType(): array
     {
-        return $this->http_get('policies/bytype', [])->json();
+        // return $this->http_get('policies/bytype', [])->json();
+        return [];
     }
 
     /**
@@ -58,7 +60,8 @@ class PolicyStatsService
      */
     public function getPoliciesByPremium(): array
     {
-        return $this->http_get('policies/by-premium', [])->json();
+        // return $this->http_get('policies/by-premium', [])->json();
+        return [];
     }
 
     /**
@@ -88,7 +91,6 @@ class PolicyStatsService
      */
     public function getMonthlyPolicies(): array
     {
-        // return $this->http_get('policies/', [])->json();
         return $this->http_get('policies/total', [])->json();
     }
 
@@ -121,14 +123,14 @@ class PolicyStatsService
      */
     public function getAverageBenefitsPerPolicy()
     {
-        // return $this->http_get('policies/average-benefits', [])->json();
-        return 2.6;
+        return $this->http_get('policies/average-benefits', [])->json();
     }
     /**
      * Get claims grouped by policy type.
      */
     public function getClaimsByPolicyType($reqParams): array
     {
-        return $this->http_get('policies/bytype', $reqParams)->json();
+        // return $this->http_get('policies/bytype', $reqParams)->json();
+        return ['type1' => '78'];
     }
 }

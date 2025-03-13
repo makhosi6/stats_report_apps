@@ -15,13 +15,15 @@ class ClaimsStatsService
     {
         try {
             $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
-            return Http::get($api_base_url . $path, $data);
+            $default_get_params = [
+                'start_date' => date('Y-m-d', strtotime('-12 months')),
+                'end_date' => date('Y-m-d'),
+                'offset' => 15
+            ];
+            return Http::get($api_base_url . $path, array_merge($default_get_params, $data),);
         } catch (\Throwable $th) {
             Log::error("Error at claims stats http_get", ["Error" => $th->getTraceAsString()]);
             throw new \Exception($th->getMessage());
-            // return (object) [
-            //     "error" => $th->getTraceAsString()
-            // ];
         }
     }
     /**
@@ -29,7 +31,9 @@ class ClaimsStatsService
      */
     public function getTotalClaims(): array
     {
-        return $this->http_get('claims/total', [])->json();
+        return $this->http_get('claims/total', [
+            "offset" => 100
+        ])->json();
     }
 
     /**
@@ -53,7 +57,7 @@ class ClaimsStatsService
      */
     public function getClaimsByPolicyType(): array
     {
-        return $this->http_get('claims/by-type', [])->json();
+        return $this->http_get('claims/bytype', [])->json();
     }
 
     /**

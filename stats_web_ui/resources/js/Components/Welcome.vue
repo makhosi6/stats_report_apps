@@ -14,6 +14,9 @@ const props = defineProps({
     },
 });
 const changeFormat = (value) => "+" + value + "%";
+const percentage = (partialValue, totalValue) => {
+    return (100 * partialValue) / totalValue;
+};
 const store = useStore();
 store.commit("setStats", props.stats);
 </script>
@@ -26,12 +29,17 @@ store.commit("setStats", props.stats);
                 <numbers-card
                     icon="benefits"
                     :value="
-                        store.state.stats.totalBenefits.total_benefits.toString()
+                    store.state.stats.totalBenefits
+                    .benefits_last_12_months?.toString()
                     "
                     type="Total Benefits"
-                    time_frame="than last week"
+                    time_frame="last 12 months"
                     :change="
-                        store.state.stats.totalBenefits.last_month.toString()
+                        percentage(
+                            store.state.stats.totalBenefits
+                                .benefits_last_12_months,
+                            store.state.stats.totalBenefits.total_benefits / 100
+                        )?.toFixed()
                     "
                 />
             </template>
@@ -39,12 +47,16 @@ store.commit("setStats", props.stats);
                 <numbers-card
                     icon="policies"
                     :value="
-                        store.state.stats.totalPolicies.total_policies.toString()
+                        store.state.stats.totalPolicies.policies_last_12_months?.toString()
                     "
                     type="Total Polices"
-                    time_frame="than last month"
+                    time_frame="last 12 months"
                     :change="
-                        store.state.stats.totalPolicies.last_month.toString()
+                        percentage(
+                            store.state.stats.totalPolicies
+                                .policies_last_12_months,
+                            store.state.stats.totalPolicies.total_policies
+                        )?.toLocaleString()
                     "
                 />
             </template>
@@ -52,22 +64,35 @@ store.commit("setStats", props.stats);
                 <numbers-card
                     icon="claims"
                     :value="
-                        store.state.stats.totalClaims.total_claims.toString()
+                        store.state.stats.totalClaims.claims_last_12_months?.toString()
                     "
                     type="Total Claims"
-                    time_frame="than last month"
+                    time_frame="last 12 months"
                     :change="
-                        store.state.stats.totalClaims.last_month.toString()
+                        percentage(
+                            store.state.stats.totalClaims.claims_last_12_months,
+                            store.state.stats.totalClaims.total_claims
+                        )?.toLocaleString()
                     "
                 />
             </template>
             <template #sum_newusers>
                 <numbers-card
                     icon="general"
-                    :value="store.state.stats.averageBenefitsPerPolicy"
+                    :value="
+                        Number(
+                            store.state.stats.averageBenefitsPerPolicy.value
+                        ).toFixed(2)
+                    "
                     type="Average Benefits"
-                    time_frame=""
-                    :change="'Avarage benefit per policy'"
+                    :time_frame="
+                        store.state.stats.averageBenefitsPerPolicy
+                            .total_benefits +
+                        ' / ' +
+                        store.state.stats.averageBenefitsPerPolicy
+                            .total_policies
+                    "
+                    :change="'Per policy'"
                 />
             </template>
         </summary-stats-section>
@@ -85,15 +110,15 @@ store.commit("setStats", props.stats);
                 <bar-chart
                     :fromdate="fromdate"
                     :todate="todate"
-                    label="Most Common Benefits"
-                    :data="store.state.stats.mostCommonBenefits || {}"
+                    label="Benefits By Product"
+                    :data="store.state.stats.benefitsByPolicyType || {}"
                 />
             </template>
             <template #m2m_claims="{ fromdate, todate }">
                 <bar-chart
                     :fromdate="fromdate"
                     :todate="todate"
-                    label="Claims"
+                    label="Monthly Claims"
                     :data="store.state.stats.monthlyClaims"
                 />
             </template>
@@ -112,8 +137,7 @@ store.commit("setStats", props.stats);
                 <events-table
                     :fromdate="fromdate"
                     :todate="todate"
-                    label="Recent Claims"
-                    :events="store.state.stats.claimsOverTimePeriod"
+                    :events="store.state.stats.totalClaims.properties"
                 />
             </template>
         </detailed-stats-section>

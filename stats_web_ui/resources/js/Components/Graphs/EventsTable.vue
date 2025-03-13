@@ -68,7 +68,7 @@
                                         scope="col"
                                         class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                                     >
-                                        Notes
+                                        Date
                                     </th>
 
                                     <!-- <th
@@ -94,9 +94,9 @@
                                     >
                                         <div>
                                             <h2
-                                                class="font-medium text-gray-800 dark:text-white"
+                                                class="truncate w-32 font-medium text-gray-800 dark:text-white"
                                             >
-                                                {{ event.type }}
+                                                {{ event.name }}
                                             </h2>
                                         </div>
                                     </td>
@@ -105,15 +105,15 @@
                                     >
                                         <div
                                             :class="
-                                                event.status == 'Approved'
+                                                event.status == 'open'
                                                     ? 'text-emerald-500'
-                                                    : event.status == 'Rejected'
+                                                    : event.status == 'closed'
                                                     ? 'text-red-500'
-                                                    : event.status == 'Pending'
+                                                    : event.status == '' || !event.status
                                                     ? 'text-yellow-500'
                                                     : 'text-gray-400'
                                             "
-                                            class="inline px-3 py-1 text-sm font-normal rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800"
+                                            class="capitalize inline px-3 py-1 text-sm font-normal rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800"
                                         >
                                             {{ event.status }}
                                         </div>
@@ -125,7 +125,13 @@
                                             <h4
                                                 class="text-gray-700 dark:text-gray-200"
                                             >
-                                                ZAR {{ event.amount }}
+                                                ZAR
+                                                {{
+                                                    new Intl.NumberFormat(
+                                                        "za-EN",
+                                                        {}
+                                                    ).format(event.amount || 0)
+                                                }}
                                             </h4>
                                         </div>
                                     </td>
@@ -136,7 +142,7 @@
                                             <p
                                                 class="text-gray-500 dark:text-gray-400"
                                             >
-                                                Subject to changes...
+                                             {{ new Date(event.date_entered).toLocaleDateString() }}
                                             </p>
                                         </div>
                                     </td>

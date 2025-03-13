@@ -6,19 +6,22 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class BenefitStatsService {
+class BenefitStatsService
+{
 
     function http_get(string $path, array | null $data)
     {
         try {
             $api_base_url = env('API_BASE_URL', 'http://localhost:5050/api/stats/');
-            return Http::get($api_base_url . $path, $data);
+            $default_get_params = [
+                'start_date' => date('Y-m-d', strtotime('-12 months')),
+                'end_date' => date('Y-m-d'),
+                'offset' => 15
+            ];
+            return Http::get($api_base_url . $path, array_merge($default_get_params, $data),);
         } catch (\Throwable $th) {
             Log::error("Error at policy stats http_get", ["Error" => $th->getTraceAsString()]);
             throw new \Exception($th->getMessage());
-            // return (object) [
-            //     "error" => $th->getTraceAsString()
-            // ];
         }
     }
     /**
@@ -26,14 +29,14 @@ class BenefitStatsService {
      */
     public function getTotalBenefits(): array
     {
-       return $this->http_get('benefits/total', [])->json();
+        return $this->http_get('benefits/total', [])->json();
     }
     /**
      * Get the total number of benefits across all policies for a give period.
      */
     public function getTotalBenefitsForTimeRange($reqParams): array
     {
-       return $this->http_get('benefits/time-period', $reqParams)->json();
+        return $this->http_get('benefits/time-period', $reqParams)->json();
     }
 
     /**
@@ -41,7 +44,7 @@ class BenefitStatsService {
      */
     public function getAverageBenefitsPerPolicy(): array
     {
-       return $this->http_get('benefits/average-per-policy', [])->json();
+        return $this->http_get('benefits/average-per-policy', [])->json();
     }
 
     /**
@@ -49,7 +52,7 @@ class BenefitStatsService {
      */
     public function getBenefitsByPolicyType(): array
     {
-       return $this->http_get('benefits/by-policy-type', [])->json();
+        return $this->http_get('benefits/by-policy-type', [])->json();
     }
 
     /**
@@ -64,7 +67,7 @@ class BenefitStatsService {
      */
     public function getDailyBenefits(): array
     {
-       return $this->http_get('benefits/created-daily', [])->json();
+        return $this->http_get('benefits/created-daily', [])->json();
     }
 
     /**
@@ -72,7 +75,7 @@ class BenefitStatsService {
      */
     public function getWeeklyBenefits(): array
     {
-       return $this->http_get('benefits/created-weekly', [])->json();
+        return $this->http_get('benefits/created-weekly', [])->json();
     }
 
     /**
@@ -80,7 +83,6 @@ class BenefitStatsService {
      */
     public function getMonthlyBenefits(): array
     {
-       return $this->http_get('benefits/created-monthly', [])->json();
+        return $this->http_get('benefits/created-monthly', [])->json();
     }
 }
-

@@ -30,36 +30,40 @@ Route::middleware([
             "stats" => [
                 /// benefits
                 "totalBenefits" => app(BenefitStatsService::class)->getTotalBenefits(),
+                "totalBenefitsForTimeRange" => app(BenefitStatsService::class)->getTotalBenefitsForTimeRange([]),
+                "averageBenefitsPerPolicy" => app(BenefitStatsService::class)->getAverageBenefitsPerPolicy(),
+                "benefitsByPolicyType" => app(BenefitStatsService::class)->getBenefitsByPolicyType(),
                 "mostCommonBenefits" => app(BenefitStatsService::class)->getMostCommonBenefits(),
+                "dailyBenefits" => app(BenefitStatsService::class)->getDailyBenefits(),
+                "weeklyBenefits" => app(BenefitStatsService::class)->getWeeklyBenefits(),
                 "monthlyBenefits" => app(BenefitStatsService::class)->getMonthlyBenefits(),
-                "totalBenefitsForTimeRange" => app(BenefitStatsService::class)->getTotalBenefitsForTimeRange([
-                    'start_date' => '2024-01-01',
-                    'end_date'   => '2025-03-03'
-                ]),
 
                 /// claims
-                "claimsOverTimePeriod" => app(ClaimsStatsService::class)->getClaimsOverTimePeriod([
-                    'start_date' => '2024-01-01',
-                    'end_date'   => '2025-03-03'
-                ]),
-                "monthlyClaims" => app(ClaimsStatsService::class)->getMonthlyClaims(),
                 "totalClaims" => app(ClaimsStatsService::class)->getTotalClaims(),
+                "approvedClaims" => app(ClaimsStatsService::class)->getApprovedClaims(),
+                "rejectedClaims" => app(ClaimsStatsService::class)->getRejectedClaims(),
+                "claimsByPolicyType" => app(ClaimsStatsService::class)->getClaimsByPolicyType(),
+                "claimsByBenefitType" => app(ClaimsStatsService::class)->getClaimsByBenefitType(),
+                "claimsOverTimePeriod" => app(ClaimsStatsService::class)->getClaimsOverTimePeriod([]),
+                "weeklyClaims" => app(ClaimsStatsService::class)->getWeeklyClaims(),
+                "dailyClaims" => app(ClaimsStatsService::class)->getDailyClaims(),
                 "monthlyClaims" => app(ClaimsStatsService::class)->getMonthlyClaims(),
 
                 /// policies
                 "policiesBySpecificBranch" => app(PolicyStatsService::class)->getPoliciesBySpecificBranch('Johannesburg'),
-                "policiesForTimeRange" => app(PolicyStatsService::class)->getTotalPoliciesForTimeRange([
-                    'start_date' => '2024-01-01',
-                    'end_date'   => '2025-03-03'
-                ]),
+                "policiesForTimeRange" => app(PolicyStatsService::class)->getTotalPoliciesForTimeRange([]),
                 "totalPolicies" => app(PolicyStatsService::class)->getTotalPolicies(),
                 "averageBenefitsPerPolicy" => app(PolicyStatsService::class)->getAverageBenefitsPerPolicy(),
                 "policiesByBranch" => app(PolicyStatsService::class)->getPoliciesByBranch(),
-                "claimsByPolicyType" => app(PolicyStatsService::class)->getClaimsByPolicyType([
-                    'start_date' => '2024-01-01',
-                    'end_date'   => '2025-03-03'
-                ]),
+                "claimsByPolicyType" => app(PolicyStatsService::class)->getClaimsByPolicyType([]),
                 "monthlyPolicies" => app(PolicyStatsService::class)->getMonthlyPolicies(),
+                "weeklyPolicies" => app(PolicyStatsService::class)->getWeeklyPolicies(),
+                "dailyPolicies" => app(PolicyStatsService::class)->getDailyPolicies(),
+                "policiesByPremium" => app(PolicyStatsService::class)->getPoliciesByPremium(),
+                "totalPoliciesForTimeRange" => app(PolicyStatsService::class)->getTotalPoliciesForTimeRange([]),
+                "policiesByType" => app(PolicyStatsService::class)->getPoliciesByType(),
+                "cancelledPolicies" => app(PolicyStatsService::class)->getCancelledPolicies(),
+                "reinstatedPolicies" => app(PolicyStatsService::class)->getReinstatedPolicies(),
             ]
         ]);
     })->name('dashboard');

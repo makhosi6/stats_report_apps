@@ -13,7 +13,7 @@ defineProps({
         type: String,
     },
     change: {
-        type: Number,
+        type: String
     },
     time_frame: {
         type: String,

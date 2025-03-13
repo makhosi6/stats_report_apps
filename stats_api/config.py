@@ -6,7 +6,7 @@ class Config:
 
     # Database 
     # 'mysql+pymysql://...'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SUGAR_DATABASE_URL') or 'mysql+mysqlconnector://root:password@192.168.0.159:3306/sugarcrm'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SUGAR_DATABASE_URL') or 'mysql+mysqlconnector://root:password@192.168.0.68:3306/sugarcrm'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     JSON_SORT_KEYS = False
