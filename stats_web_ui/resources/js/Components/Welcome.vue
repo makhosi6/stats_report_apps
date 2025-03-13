@@ -137,7 +137,7 @@ store.commit("setStats", props.stats);
                 <events-table
                     :fromdate="fromdate"
                     :todate="todate"
-                    :events="store.state.stats.totalClaims.properties"
+                    :events="store.state.stats.totalClaims.properties || []"
                 />
             </template>
         </detailed-stats-section>

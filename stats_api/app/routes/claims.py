@@ -3,9 +3,11 @@ from flask import Blueprint, jsonify, request
 from datetime import datetime, timedelta
 from app.models.all import DLBenefit, DLClaim, db
 from app.utils import get_default_time_range, get_time_filters, parse_date_params
+from app.auth.middleware import token_required
 
 claims_bp = Blueprint('claims', __name__,  url_prefix='/api/stats/claims')
 @claims_bp.route('/total', methods=['GET'])
+@token_required
 def total_claims():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -25,6 +27,7 @@ def total_claims():
     })
 
 @claims_bp.route('/bytype', methods=['GET'])
+@token_required
 def claims_by_type():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -37,6 +40,7 @@ def claims_by_type():
     return jsonify({result[0]: result[1] for result in results})
 
 @claims_bp.route('/approved', methods=['GET'])
+@token_required
 def approved_claims():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -51,6 +55,7 @@ def approved_claims():
     })
 
 @claims_bp.route('/rejected', methods=['GET'])
+@token_required
 def rejected_claims():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -65,6 +70,7 @@ def rejected_claims():
     })
 
 @claims_bp.route('/by-policy', methods=['GET'])
+@token_required
 def claims_by_policy():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -77,6 +83,7 @@ def claims_by_policy():
     return jsonify({result[0]: result[1] for result in results})
 
 @claims_bp.route('/by-benefit', methods=['GET'])
+@token_required
 def claims_by_benefit():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -89,6 +96,7 @@ def claims_by_benefit():
     return jsonify({result[0]: result[1] for result in results})
 
 @claims_bp.route('/time-period', methods=['GET'])
+@token_required
 def claims_time_period():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -104,6 +112,7 @@ def claims_time_period():
     })
 
 @claims_bp.route('/daily', methods=['GET'])
+@token_required
 def claims_daily():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -116,6 +125,7 @@ def claims_daily():
     return jsonify({result[0].strftime('%Y-%m-%d'): result[1] for result in results})
 
 @claims_bp.route('/weekly', methods=['GET'])
+@token_required
 def claims_weekly():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -128,6 +138,7 @@ def claims_weekly():
     return jsonify({result[0]: result[1] for result in results})
 
 @claims_bp.route('/monthly', methods=['GET'])
+@token_required
 def claims_monthly():
     start_date, end_date, error = parse_date_params(request)
     if error:

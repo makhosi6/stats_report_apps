@@ -83,7 +83,7 @@
                                 class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-800"
                             >
                                 <tr
-                                    v-for="(event, index) in events.slice(
+                                    v-for="(event, index) in events?.slice(
                                         offset,
                                         offset + 6
                                     )"

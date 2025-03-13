@@ -3,9 +3,11 @@ from flask import Blueprint, jsonify, request
 from datetime import datetime, timedelta
 from app.models.all import DLPolicy, DLBenefit, DLBranch, db
 from app.utils import get_time_filters, parse_date_params, get_default_time_range
+from app.auth.middleware import token_required
 
 policies_bp = Blueprint("policies", __name__, url_prefix="/api/stats/policies")
 @policies_bp.route("/total", methods=["GET"])
+@token_required
 def total_policies():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -25,6 +27,7 @@ def total_policies():
     })
 
 @policies_bp.route("/cancelled", methods=["GET"])
+@token_required
 def cancelled_policies():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -37,6 +40,7 @@ def cancelled_policies():
     return jsonify({"cancelled_policies": cancelled})
 
 @policies_bp.route("/reinstated", methods=["GET"])
+@token_required
 def reinstated_policies():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -49,6 +53,7 @@ def reinstated_policies():
     return jsonify({"reinstated_policies": reinstated})
 
 @policies_bp.route("/bytype", methods=["GET"])
+@token_required
 def policies_by_type():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -59,6 +64,7 @@ def policies_by_type():
     return jsonify({result[0]: result[1] for result in results})
 
 @policies_bp.route("/time-period", methods=["GET"])
+@token_required
 def policies_time_period():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -73,6 +79,7 @@ def policies_time_period():
     })
 
 @policies_bp.route("/by-premium", methods=["GET"])
+@token_required
 def policies_by_premium():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -83,6 +90,7 @@ def policies_by_premium():
     return jsonify({result[0]: result[1] for result in results})
 
 @policies_bp.route("/created-daily", methods=["GET"])
+@token_required
 def policies_created_daily():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -93,6 +101,7 @@ def policies_created_daily():
     return jsonify({result[0].strftime('%Y-%m-%d'): result[1] for result in results})
 
 @policies_bp.route("/created-weekly", methods=["GET"])
+@token_required
 def policies_created_weekly():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -103,6 +112,7 @@ def policies_created_weekly():
     return jsonify({result[0]: result[1] for result in results})
 
 @policies_bp.route("/created-monthly", methods=["GET"])
+@token_required
 def policies_created_monthly():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -113,6 +123,7 @@ def policies_created_monthly():
     return jsonify({result[0]: result[1] for result in results})
 
 @policies_bp.route("/average-benefits", methods=["GET"])
+@token_required
 def average_benefits_per_policy():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -137,6 +148,7 @@ def average_benefits_per_policy():
     })
 
 @policies_bp.route("/by-branch", methods=["GET"])
+@token_required
 def policies_by_branch():
     results = (
         db.session.query(DLBranch.name, db.func.count(DLPolicy.dl_branch_id)).filter(DLPolicy.dl_branch_id == DLBranch.id)
@@ -147,6 +159,7 @@ def policies_by_branch():
 
 
 @policies_bp.route("/branch/<branchname>", methods=["GET"])
+@token_required
 def policies_for_branch(branchname):
     current = DLPolicy.query.filter(DLBranch.name == branchname).first()
     policies = DLPolicy.query.filter(DLPolicy.dl_branch_id == current.id).all()

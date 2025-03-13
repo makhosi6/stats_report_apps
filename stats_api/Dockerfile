@@ -9,6 +9,8 @@ RUN pip install SQLAlchemy==2.0.38
 RUN pip install Flask-SQLAlchemy==3.1.1
 RUN pip install pymysql
 RUN pip install gunicorn
+RUN pip install pyjwt
+RUN pip install pillow
 RUN pip install mysql-connector-python
 
 COPY nginx.conf /etc/nginx/nginx.conf

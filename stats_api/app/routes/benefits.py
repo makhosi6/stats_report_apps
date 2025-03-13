@@ -4,6 +4,7 @@ from sqlalchemy import func
 from flask import Blueprint, jsonify, request
 from app.models.all import DLBenefit, db
 from app.utils import get_default_time_range, get_time_filters, parse_date_params
+from app.auth.middleware import token_required
 
 home_bp = Blueprint('home', __name__)
 
@@ -13,6 +14,7 @@ def home():
 
 
 benefits_bp = Blueprint('benefits', __name__, url_prefix='/api/stats/benefits')
+@token_required
 @benefits_bp.route('/total', methods=['GET'])
 def total_benefits():
     start_date, end_date, error = parse_date_params(request)
@@ -32,6 +34,7 @@ def total_benefits():
     })
 
 @benefits_bp.route('/time-period', methods=['GET'])
+@token_required
 def benefits_time_period():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -49,6 +52,7 @@ def benefits_time_period():
     })
 
 @benefits_bp.route('/average-per-policy', methods=['GET'])
+@token_required
 def average_benefits_per_policy():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -68,6 +72,7 @@ def average_benefits_per_policy():
     })
 
 @benefits_bp.route('/by-policy-type', methods=['GET'])
+@token_required
 def benefits_by_policy_type():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -80,6 +85,7 @@ def benefits_by_policy_type():
     return jsonify({result[0]: result[1] for result in results})
 
 @benefits_bp.route('/most-common', methods=['GET'])
+@token_required
 def most_common_benefits():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -93,6 +99,7 @@ def most_common_benefits():
     return jsonify({result[0]: result[1] for result in results})
 
 @benefits_bp.route('/created-daily', methods=['GET'])
+@token_required
 def benefits_created_daily():
     start_date, end_date, error = parse_date_params(request)
     if error:
@@ -117,6 +124,7 @@ def benefits_created_weekly():
     return jsonify({result[0]: result[1] for result in results})
 
 @benefits_bp.route('/created-monthly', methods=['GET'])
+@token_required
 def benefits_created_monthly():
     start_date, end_date, error = parse_date_params(request)
     if error:

@@ -4,7 +4,7 @@
 namespace App\Services;
 
 use App\Stats\Services\BaseHttpService;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -20,7 +20,12 @@ class ClaimsStatsService
                 'end_date' => date('Y-m-d'),
                 'offset' => 15
             ];
-            return Http::get($api_base_url . $path, array_merge($default_get_params, $data),);
+            return Http::withHeaders([
+                'Authorization' => 'Bearer ' . md5(Auth::user()->email)
+            ])->get(
+                $api_base_url . $path,
+                array_merge($default_get_params, $data),
+            );
         } catch (\Throwable $th) {
             Log::error("Error at claims stats http_get", ["Error" => $th->getTraceAsString()]);
             throw new \Exception($th->getMessage());
